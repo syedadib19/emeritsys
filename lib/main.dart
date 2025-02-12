@@ -215,7 +215,15 @@ class _EmeritSystemState extends State<EmeritSystem> {
                           MaterialPageRoute(builder: (context)=> MenuPage()));
                     },
                   child: Text('Go to Next Page'),
-                    )
+                    ),
+                ElevatedButton(
+                  onPressed: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context)=> MenuPage()));
+                  },
+                  child: Text('Go to homePage'),
+                )
               ],
             ),
           ),
