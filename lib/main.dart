@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'menu.dart';
 
 void main() {
   runApp(MyApp());
@@ -207,6 +208,14 @@ class _EmeritSystemState extends State<EmeritSystem> {
                     ),
                   ],
                 ),
+                ElevatedButton(
+                    onPressed: (){
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context)=> MenuPage()));
+                    },
+                  child: Text('Go to Next Page'),
+                    )
               ],
             ),
           ),
