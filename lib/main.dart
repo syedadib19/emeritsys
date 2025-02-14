@@ -1,4 +1,4 @@
-import 'package:emerit/MySQLListScreen.dart';
+import 'package:emerit/MyApp.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -29,7 +29,7 @@ class EmeritSystem extends StatefulWidget {
 
 class _EmeritSystemState extends State<EmeritSystem> {
   final TextEditingController _collegeNumberController = TextEditingController();
-  final TextEditingController _demeritPointsController = TextEditingController();
+  final TextEditingController _meritPointsController = TextEditingController();
   Map<String, dynamic>? _studentData;
   bool _isLoading = false;
 
@@ -52,32 +52,32 @@ class _EmeritSystemState extends State<EmeritSystem> {
     }
   }
 
-  Future<void> _updateDemerits(String action) async {
+  Future<void> _updateMerits(String action) async {
     final collegeNumber = _collegeNumberController.text;
-    final demeritPoints = int.tryParse(_demeritPointsController.text) ?? 0;
+    final meritPoints = int.tryParse(_meritPointsController.text) ?? 0;
 
     final url = action == 'add'
-        ? 'https://mrsmbetongsarawak.edu.my/emerit/api/addDemerit.php'
-        : 'https://mrsmbetongsarawak.edu.my/emerit/api/removeDemerit.php';
+        ? 'https://mrsmbetongsarawak.edu.my/emerit/api/addMerit.php'
+        : 'https://mrsmbetongsarawak.edu.my/emerit/api/removeMerit.php';
 
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({
         'college_number': collegeNumber,
-        'demerit_points': demeritPoints,
+        'merit_points': meritPoints,
       }),
     );
 
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('$action Demerit successful!'),
+        content: Text('$action Merit successfully added!'),
         backgroundColor: Colors.green,
       ));
       _fetchStudent(); // Refresh student data
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Failed to $action demerit.'),
+        content: Text('Failed to $action Merit points.'),
         backgroundColor: Colors.red,
       ));
     }
@@ -157,7 +157,7 @@ class _EmeritSystemState extends State<EmeritSystem> {
                           children: [
                             Text('Name: ${_studentData!['name']}', style: TextStyle(fontSize: 18)),
                             Text('College Number: ${_studentData!['college_number']}', style: TextStyle(fontSize: 16)),
-                            Text('Demerit Points: ${_studentData!['demerit_points']}', style: TextStyle(fontSize: 16)),
+                            Text('Merit Points: ${_studentData!['merit_points']}', style: TextStyle(fontSize: 16)),
                           ],
                         ),
                       ),
@@ -165,9 +165,9 @@ class _EmeritSystemState extends State<EmeritSystem> {
                   ),
                 SizedBox(height: 20),
                 TextField(
-                  controller: _demeritPointsController,
+                  controller: _meritPointsController,
                   decoration: InputDecoration(
-                    labelText: 'Demerit Points',
+                    labelText: 'Merit Points',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -182,7 +182,7 @@ class _EmeritSystemState extends State<EmeritSystem> {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () => _updateDemerits('add'),
+                        onPressed: () => _updateMerits('add'),
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -190,13 +190,13 @@ class _EmeritSystemState extends State<EmeritSystem> {
                           padding: EdgeInsets.symmetric(vertical: 12),
                           backgroundColor: Colors.green,
                         ),
-                        child: Text('Add Demerit', style: TextStyle(fontSize: 16)),
+                        child: Text('Add Merit', style: TextStyle(fontSize: 16)),
                       ),
                     ),
                     SizedBox(width: 10),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () => _updateDemerits('remove'),
+                        onPressed: () => _updateMerits('remove'),
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -204,7 +204,7 @@ class _EmeritSystemState extends State<EmeritSystem> {
                           padding: EdgeInsets.symmetric(vertical: 12),
                           backgroundColor: Colors.red,
                         ),
-                        child: Text('Remove Demerit', style: TextStyle(fontSize: 16)),
+                        child: Text('Remove Merit', style: TextStyle(fontSize: 16)),
                       ),
                     ),
                   ],
@@ -221,9 +221,9 @@ class _EmeritSystemState extends State<EmeritSystem> {
                   onPressed: (){
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context)=> MySQLListScreen()));
+                        MaterialPageRoute(builder: (context)=> SecondScreen()));
                   },
-                  child: Text('Go to MySQLLIST'),
+                  child: Text('Go to List View'),
                 )
               ],
             ),
@@ -233,7 +233,7 @@ class _EmeritSystemState extends State<EmeritSystem> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _collegeNumberController.clear();
-          _demeritPointsController.clear();
+          _meritPointsController.clear();
           setState(() => _studentData = null);
         },
         child: Icon(Icons.refresh),
