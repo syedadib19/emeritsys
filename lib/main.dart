@@ -1,3 +1,4 @@
+import 'package:emerit/MySQLListScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -220,9 +221,9 @@ class _EmeritSystemState extends State<EmeritSystem> {
                   onPressed: (){
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context)=> MenuPage()));
+                        MaterialPageRoute(builder: (context)=> MySQLListScreen()));
                   },
-                  child: Text('Go to homePage'),
+                  child: Text('Go to MySQLLIST'),
                 )
               ],
             ),
